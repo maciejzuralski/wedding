@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Galeria Ślubna</title>
+</head>
+<body>
+<h1>Galeria ślubna dla ID: <span th:text="${weddingId}"></span></h1>
+
+<div class="gallery">
+    <ul>
+        <li th:each="photo : ${photoFilenames}">
+            <img th:src="@{${weddingPhotosDir} + '/' + ${photo}}" alt="Wedding photo">
+        </li>
+    </ul>
+</div>
+</body>
+</html>

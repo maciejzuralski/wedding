@@ -1,4 +1,4 @@
-package com.example.wedding.gallery;
+package com.example.wedding.wedding;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,18 +7,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "images")
-public class Image {
+@Table
+public class WeddingImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long weddingId;
-
-    private String name;
+    @ManyToOne
+    private Wedding wedding;
 
     @Lob
-    @Column(name = "image", columnDefinition = "BYTEA")
+    @Column
     private byte[] image;  // Store image binary data as byte array
 
 }

@@ -1,55 +1,63 @@
 package com.example.wedding.gallery;
 
+import com.example.wedding.wedding.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
 @RequestMapping("/gallery")
+@Controller
 public class GalleryController {
-    private static final String PHOTOS_DIR = "/Users/maciejzuralski/Desktop/website/weding/src/main/java/com/example/weding/photos/";
 
-    private final GalleryService galleryService;
+    private final WeddingService weddingService;
+    private final WeddingImageService weddingImageService;
 
     @Autowired
-    public GalleryController(GalleryService galleryService) {
-        this.galleryService = galleryService;
+    public GalleryController(WeddingService weddingService, WeddingImageService weddingImageService) {
+        this.weddingService = weddingService;
+        this.weddingImageService = weddingImageService;
     }
 
-    @GetMapping("/{weddinId}")
-    public String getGallery(@RequestParam("wedding") String weddingId, Model model) {
-        // Ścieżka do katalogu ze zdjęciami dla podanego id
-        weddingId = '_' + weddingId;
-        String weddingPhotosDir = PHOTOS_DIR + weddingId;
+    @PostMapping("/add")
+    public String addToGallery(@RequestParam("weddingId") String weddingId, @RequestParam("file") MultipartFile file) throws IOException {
+        Wedding wedding = weddingService.getWeddingById(Long.parseLong(weddingId));
 
-        // Lista nazw plików zdjęć
-        List<String> photoFilenames = new ArrayList<>();
+        WeddingImage weddingImage = new WeddingImage();
 
-        File folder = new File(weddingPhotosDir);
-        if (folder.exists() && folder.isDirectory()) {
-            File[] files = folder.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isFile() && isImageFile(file.getName())) {
-                        photoFilenames.add(file.getName());
-                    }
-                }
-            }
-        }
+        weddingImage.setImage(file.getBytes());
+        weddingImage.setWedding(wedding);
 
-        // Dodaj listę zdjęć do modelu
-        model.addAttribute("photoFilenames", photoFilenames);
+        weddingImageService.addWeddingImage(weddingImage);
+        return "gallery";
+    }
+
+    @GetMapping("/default")
+    public String getGalleryDefault(Model model) {
+        Wedding wedding = weddingService.getWeddingById(1234L);
+
+        model.addAttribute("weddingId", 1234L);
+        model.addAttribute("weddingPhotos", wedding.getWeddingImageList());
+
+        return "gallery";
+    }
+
+    @GetMapping("{weddingId}")
+    public String getGallery(@RequestParam("weddingId") String weddingId, Model model) {
+        Wedding wedding = weddingService.getWeddingById(Long.parseLong(weddingId));
+
         model.addAttribute("weddingId", weddingId);
-        model.addAttribute("weddingPhotosDir", weddingPhotosDir);
+        model.addAttribute("weddingPhotos", wedding.getWeddingImageList());
 
-        // Zwrócenie nazwy widoku (html)
         return "gallery";
     }
 

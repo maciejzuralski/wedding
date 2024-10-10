@@ -10,7 +10,7 @@
 <body>
 
 <div class="uploadBox">
-    <form action="/gallery/add" method="post" enctype="multipart/form-data">
+    <form th:action="@{/gallery/add(weddingId=${weddingId})}" method="post" enctype="multipart/form-data">
         <label for="file">Choose a file:</label>
         <input type="file" id="file" name="file">
         <br><br>
@@ -21,11 +21,12 @@
 <h1>Galeria ślubna dla ID: <span th:text="${weddingId}"></span></h1>
 
 <div class="gallery">
-    <ul>
-        <li th:each="photo : ${weddingPhotos}">
-            <img th:src="@{/weddingPhotos/{id}(id=${weddingPhotos.id})}" alt="Image" width="300" height="200"/>
-        </li>
-    </ul>
+    <div th:if="${weddingImages != null}">
+        <div th:each="image : ${weddingImages}">
+            <img th:src="'data:image/jpeg;base64,' + ${T(org.springframework.util.Base64Utils).encodeToString(image.image)}"
+                 alt="Wedding Image" style="width: 400px; height: auto;">
+        </div>
+    </div>
 </div>
 </body>
 </html>

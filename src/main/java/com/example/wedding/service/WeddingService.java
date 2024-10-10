@@ -1,5 +1,7 @@
-package com.example.wedding.wedding;
+package com.example.wedding.service;
 
+import com.example.wedding.model.Wedding;
+import com.example.wedding.repository.WeddingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,6 @@ public class WeddingService {
     }
 
     public void saveWedding(Wedding wedding) {
-        weddingRepository.save(wedding);
-    }
-
-    public void addWedding(Wedding wedding) {
         weddingRepository.save(wedding);
     }
 

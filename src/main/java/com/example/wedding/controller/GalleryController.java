@@ -1,6 +1,9 @@
-package com.example.wedding.gallery;
+package com.example.wedding.controller;
 
-import com.example.wedding.wedding.*;
+import com.example.wedding.model.Wedding;
+import com.example.wedding.model.WeddingImage;
+import com.example.wedding.service.WeddingImageService;
+import com.example.wedding.service.WeddingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @RequestMapping("/gallery")
 @Controller
@@ -29,29 +30,28 @@ public class GalleryController {
     }
 
     @PostMapping("/add")
-    public String addToGallery(@RequestParam("weddingId") String weddingId, @RequestParam("file") MultipartFile file) throws IOException {
-        Wedding wedding = weddingService.getWeddingById(Long.parseLong(weddingId));
+    public String addToGallery(@RequestParam("weddingId") String weddingId, @RequestParam("file") MultipartFile file, Model model) throws IOException {
+        Wedding wedding = weddingImageService.addWeddingImage(Long.parseLong(weddingId), file);
 
-        WeddingImage weddingImage = new WeddingImage();
 
-        weddingImage.setImage(file.getBytes());
-        weddingImage.setWedding(wedding);
 
-        weddingImageService.addWeddingImage(weddingImage);
+        model.addAttribute("weddingId", 1L);
+        model.addAttribute("weddingImages", wedding.getRawImagesList());
+
         return "gallery";
     }
 
     @GetMapping("/default")
     public String getGalleryDefault(Model model) {
-        Wedding wedding = weddingService.getWeddingById(1234L);
+        Wedding wedding = weddingService.getWeddingById(1L);
 
-        model.addAttribute("weddingId", 1234L);
-        model.addAttribute("weddingPhotos", wedding.getWeddingImageList());
+        model.addAttribute("weddingId", 1L);
+        model.addAttribute("weddingPhotos", wedding.getRawImagesList());
 
         return "gallery";
     }
 
-    @GetMapping("{weddingId}")
+    @GetMapping("/{weddingId}")
     public String getGallery(@RequestParam("weddingId") String weddingId, Model model) {
         Wedding wedding = weddingService.getWeddingById(Long.parseLong(weddingId));
 

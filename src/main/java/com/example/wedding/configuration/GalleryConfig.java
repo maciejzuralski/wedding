@@ -1,4 +1,4 @@
-package com.example.wedding.gallery;
+package com.example.wedding.configuration;
 
 import org.springframework.context.annotation.Configuration;
 

@@ -1,4 +1,4 @@
-package com.example.wedding.wedding;
+package com.example.wedding.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,6 +14,7 @@ public class WeddingImage {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "wedding")
     private Wedding wedding;
 
     @Lob

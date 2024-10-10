@@ -1,5 +1,7 @@
-package com.example.wedding.wedding;
+package com.example.wedding.controller;
 
+import com.example.wedding.model.Wedding;
+import com.example.wedding.service.WeddingService;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

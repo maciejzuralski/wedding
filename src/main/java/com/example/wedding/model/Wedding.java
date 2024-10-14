@@ -25,11 +25,11 @@ public class Wedding {
         weddingImageList.add(weddingImage);
     }
 
-    public List<byte[]> getRawImagesList() {
-        List<byte[]> rawImagesList = new ArrayList<>();
+    public List<String> getImagesPaths() {
+        List<String> imagesPaths = new ArrayList<>();
         for (WeddingImage weddingImage : weddingImageList) {
-            rawImagesList.add(weddingImage.getImage());
+            imagesPaths.add(weddingImage.getImagePath());
         }
-        return rawImagesList;
+        return imagesPaths;
     }
 }

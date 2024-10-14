@@ -17,8 +17,6 @@ public class WeddingImage {
     @JoinColumn(name = "wedding")
     private Wedding wedding;
 
-    @Lob
-    @Column
-    private byte[] image;  // Store image binary data as byte array
+    private String imagePath;
 
 }

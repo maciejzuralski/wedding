@@ -31,12 +31,14 @@ public class GalleryController {
 
     @PostMapping("/add")
     public String addToGallery(@RequestParam("weddingId") String weddingId, @RequestParam("file") MultipartFile file, Model model) throws IOException {
+
+
         Wedding wedding = weddingImageService.addWeddingImage(Long.parseLong(weddingId), file);
 
 
 
-        model.addAttribute("weddingId", 1L);
-        model.addAttribute("weddingImages", wedding.getRawImagesList());
+        model.addAttribute("weddingId", Long.parseLong(weddingId));
+        model.addAttribute("weddingPhotos", wedding.getImagesPaths());
 
         return "gallery";
     }
@@ -46,7 +48,7 @@ public class GalleryController {
         Wedding wedding = weddingService.getWeddingById(1L);
 
         model.addAttribute("weddingId", 1L);
-        model.addAttribute("weddingPhotos", wedding.getRawImagesList());
+        model.addAttribute("weddingPhotos", wedding.getImagesPaths());
 
         return "gallery";
     }
@@ -56,7 +58,7 @@ public class GalleryController {
         Wedding wedding = weddingService.getWeddingById(Long.parseLong(weddingId));
 
         model.addAttribute("weddingId", weddingId);
-        model.addAttribute("weddingPhotos", wedding.getWeddingImageList());
+        model.addAttribute("weddingPhotos", wedding.getImagesPaths());
 
         return "gallery";
     }

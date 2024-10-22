@@ -32,10 +32,7 @@ public class GalleryController {
     @PostMapping("/add")
     public String addToGallery(@RequestParam("weddingId") String weddingId, @RequestParam("file") MultipartFile file, Model model) throws IOException {
 
-
         Wedding wedding = weddingImageService.addWeddingImage(Long.parseLong(weddingId), file);
-
-
 
         model.addAttribute("weddingId", Long.parseLong(weddingId));
         model.addAttribute("weddingPhotos", wedding.getImagesPaths());

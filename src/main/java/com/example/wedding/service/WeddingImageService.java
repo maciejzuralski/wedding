@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service
 public class WeddingImageService {
 
-    private final String uploadDir = "/Users/maciejzuralski/Desktop/website/wedding/src/main/resources/static/";
+    private final String uploadDir = "/Users/maciejzuralski/Desktop/website/uploads/";
 
     private final WeddingImageRepository weddingImageRepository;
 
